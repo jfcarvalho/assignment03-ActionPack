@@ -1,11 +1,16 @@
 class TodoItemsController < ApplicationController
   before_action :set_todo_item, only: [:show, :edit, :update, :destroy]
-
+  @number_of_completed_todos
   # GET /todo_items
   # GET /todo_items.json
   def index
+    #@number_of_completed_todos = TodoItem.count_items
+    @number_of_completed_todos = TodoItem.all.count_items_todo_list
     @todo_items = TodoItem.all
+     
+
   end
+
   def new
     @todo_items = TodoItem.new
   end
@@ -31,7 +36,7 @@ class TodoItemsController < ApplicationController
 
     respond_to do |format|
       if @todo_item.save
-        format.html { redirect_to action: "index", notice: 'Todo item was successfully created.' }
+        format.html { redirect_to @todo_item, notice: 'Todo item was successfully created.' }
         format.json { render :show, status: :created, location: @todo_item }
       else
         format.html { render :new }
